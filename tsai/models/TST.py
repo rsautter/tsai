@@ -56,7 +56,8 @@ class _MultiHeadAttention(Module):
 
         # Scaled Dot-Product Attention (multiple heads)
         context, attn = _ScaledDotProductAttention(self.d_k)(q_s, k_s, v_s)          # context: [bs x n_heads x q_len x d_v], attn: [bs x n_heads x q_len x q_len]
-
+        self.last_attn = attn
+        
         # Concat
         context = context.transpose(1, 2).contiguous().view(bs, -1, self.n_heads * self.d_v) # context: [bs x q_len x n_heads * d_v]
 
